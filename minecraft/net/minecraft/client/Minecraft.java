@@ -182,6 +182,9 @@ import net.minecraft.world.chunk.storage.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+import spyke.main.Spyke;
+import spyke.module.Module;
+
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
@@ -609,7 +612,9 @@ public class Minecraft implements IThreadListener, ISnooperInfo
         {
             this.toggleFullscreen();
         }
-
+        
+        Spyke.initClient();
+        
         try
         {
             Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -2009,6 +2014,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
 
                 if (this.currentScreen == null)
                 {
+                	for(Module m: Spyke.getInstance().getModuleManager().getModules()){
+                		if(Keyboard.getEventKey() == m.getKeybind()){
+                			m.toggleMod();
+                		}
+                	}
                     if (i == 1)
                     {
                         this.displayInGameMenu();
